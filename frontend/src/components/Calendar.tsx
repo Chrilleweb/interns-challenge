@@ -8,7 +8,7 @@ const Calendar: React.FC = () => {
 
   useEffect(() => {
     const startDate = "2024-01-01";
-    const endDate = "2024-12-31";
+    const endDate = "2024-06-30";
 
     fetchHolidays(startDate, endDate)
       .then((data) => {
@@ -27,7 +27,7 @@ const Calendar: React.FC = () => {
   }, []);
 
   const groupHolidaysByMonth = (holidays: Holiday[]): Holiday[][] => {
-    const groupedHolidays: Holiday[][] = Array.from({ length: 12 }, () => []);
+    const groupedHolidays: Holiday[][] = Array.from({ length: 6 }, () => []);
 
     holidays.forEach((holiday) => {
       const month = new Date(holiday.date).getMonth();

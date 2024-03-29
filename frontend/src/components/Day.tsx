@@ -6,7 +6,7 @@ interface DayProps {
 
 const Day: React.FC<DayProps> = ({ date }) => {
   return (
-    <div className="day">
+    <div className="day flex">
       <span>{date.getDate()}</span>
     </div>
   );

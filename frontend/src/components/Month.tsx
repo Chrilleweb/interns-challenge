@@ -16,8 +16,12 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
 
   const days: React.ReactNode[] = [];
 
+  const weekdays = ["S", "M", "T", "O", "T", "F", "L"];
+
   for (let i = 1; i <= daysInMonth; i++) {
     const currentDate = new Date(year, month, i);
+    const weekday = weekdays[currentDate.getDay()];
+
     const holiday = holidays.find((h) => {
       const holidayDate = new Date(h.date);
       return (
@@ -27,23 +31,30 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
       );
     });
 
-    console.log("Holiday for", currentDate, "is", holiday);
-
     days.push(
-      <div key={i} className="flex items-start">
-        <div className="mr-2">
+      <div
+        key={i}
+        className={`day items-start text-sm flex ${
+          holiday ? "bg-stone-300" : "bg-white"
+        } border border-gray-400 ${
+          weekday === "S" || weekday === "L" ? "bg-stone-300" : ""
+        }`}
+        style={{ width: "12rem" }}
+      >
+        <div className="flex items-start">
+          <p style={{ width: "1.8rem", paddingLeft: "0.2rem" }}>
+            {weekday.charAt(0).toUpperCase() + weekday.slice(1)}
+          </p>
           <Day date={currentDate} />
+          {holiday && <span className="text-sm ml-2">{holiday.name}</span>}
         </div>
-        {holiday && (
-          <span className="text-sm text-gray-500">{holiday.name}</span>
-        )}
       </div>
     );
   }
 
   return (
-    <div className="month p-4 mt-2">
-      <div className="mb-2">{monthName}</div>
+    <div className="month">
+      <div className="mb-2 text-center font-semibold">{monthName} 2024</div>
       <div className="flex flex-col">{days}</div>
     </div>
   );
