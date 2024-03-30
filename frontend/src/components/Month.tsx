@@ -8,6 +8,16 @@ interface MonthProps {
   holidays: Holiday[];
 }
 
+const getWeek = (d: Date) => {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    const yearStart: any = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil(
+      ((Number(d) - Number(yearStart)) / 86400000 + 1) / 7
+    );
+    return weekNo;
+  };
+
 const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
   const monthName = new Date(year, month).toLocaleDateString("default", {
     month: "long",
@@ -37,7 +47,7 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
     days.push(
       <div
         key={i}
-        className={`day text-sm flex ${
+        className={`day text-sm flex items-center ${
           holiday?.nationalHoliday ? "bg-stone-200" : "bg-white"
         } border border-gray-300 ${weekday === "S" ? "bg-stone-200" : ""}`}
         style={{ width: "13rem" }}
@@ -58,6 +68,11 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
           <Day date={currentDate} />
         </div>
         {importantdayes && <span className="text-xs ml-2">{holiday.name}</span>}
+        <div>
+        {weekday === "M" && (
+            <span className="text-xs mr-2 justify-between">{`${getWeek(currentDate)}`}</span>
+          )}
+          </div>
       </div>
     );
   }
