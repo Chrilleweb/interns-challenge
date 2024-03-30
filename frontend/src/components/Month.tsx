@@ -9,14 +9,14 @@ interface MonthProps {
 }
 
 const getWeek = (d: Date) => {
-    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-    const yearStart: any = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    const weekNo = Math.ceil(
-      ((Number(d) - Number(yearStart)) / 86400000 + 1) / 7
-    );
-    return weekNo;
-  };
+  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const yearStart: any = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(
+    ((Number(d) - Number(yearStart)) / 86400000 + 1) / 7
+  );
+  return weekNo;
+};
 
 const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
   const monthName = new Date(year, month).toLocaleDateString("default", {
@@ -41,20 +41,20 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
       );
     });
 
-    const importantdayes =
+    const importantDayes =
       holiday?.nationalHoliday || holiday?.name === "Grundlovsdag";
 
     days.push(
       <div
         key={i}
-        className={`day text-sm flex items-center ${
-          holiday?.nationalHoliday ? "bg-stone-200" : "bg-white"
-        } border border-gray-300 ${weekday === "S" ? "bg-stone-200" : ""}`}
+        className={`day text-sm flex items-center justify-between ${
+          holiday?.nationalHoliday ? "bg-customGray" : ""
+        } border border-gray-400 ${weekday === "S" ? "bg-customGray" : ""}`}
         style={{ width: "13rem" }}
       >
         <div
           className={`flex items-center ${
-            weekday === "L" ? "bg-stone-200 pr-1" : ""
+            weekday === "L" ? "bg-customGray pr-1" : ""
           }`}
         >
           <p
@@ -66,13 +66,18 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
             {weekday.charAt(0).toUpperCase() + weekday.slice(1)}
           </p>
           <Day date={currentDate} />
-        </div>
-        {importantdayes && <span className="text-xs ml-2">{holiday.name}</span>}
-        <div>
-        {weekday === "M" && (
-            <span className="text-xs mr-2 justify-between">{`${getWeek(currentDate)}`}</span>
+          {importantDayes && (
+            <span className="text-xs ml-2">{holiday.name}</span>
           )}
-          </div>
+        </div>
+        <div>
+          {weekday === "M" && (
+            <a
+              href="/"
+              className="text-md font-bold mr-2 justify-between"
+            >{`${getWeek(currentDate)}`}</a>
+          )}
+        </div>
       </div>
     );
   }
