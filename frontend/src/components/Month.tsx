@@ -39,20 +39,25 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
         key={i}
         className={`day text-sm flex ${
           holiday?.nationalHoliday ? "bg-stone-200" : "bg-white"
-        } border border-gray-300 ${
-          weekday === "S" || weekday === "L" ? "bg-stone-200" : ""
-        }`}
+        } border border-gray-300 ${weekday === "S" ? "bg-stone-200" : ""}`}
         style={{ width: "13rem" }}
       >
-        <div className="flex items-center">
-          <p style={{ width: "1.8rem", paddingLeft: "0.2rem" }}>
+        <div
+          className={`flex items-center ${
+            weekday === "L" ? "bg-stone-200 pr-1" : ""
+          }`}
+        >
+          <p
+            style={{
+              width: "1.8rem",
+              paddingLeft: "0.2rem",
+            }}
+          >
             {weekday.charAt(0).toUpperCase() + weekday.slice(1)}
           </p>
           <Day date={currentDate} />
-          {importantdayes && (
-            <span className="text-xs ml-2">{holiday.name}</span>
-          )}
         </div>
+        {importantdayes && <span className="text-xs ml-2">{holiday.name}</span>}
       </div>
     );
   }
