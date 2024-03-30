@@ -31,13 +31,16 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
       );
     });
 
+    const importantdayes =
+      holiday?.nationalHoliday || holiday?.name === "Grundlovsdag";
+
     days.push(
       <div
         key={i}
         className={`day text-sm flex ${
-          holiday ? "bg-stone-300" : "bg-white"
-        } border border-gray-400 ${
-          weekday === "S" || weekday === "L" ? "bg-stone-300" : ""
+          holiday?.nationalHoliday ? "bg-stone-200" : "bg-white"
+        } border border-gray-300 ${
+          weekday === "S" || weekday === "L" ? "bg-stone-200" : ""
         }`}
         style={{ width: "13rem" }}
       >
@@ -46,7 +49,9 @@ const Month: React.FC<MonthProps> = ({ year, month, holidays }) => {
             {weekday.charAt(0).toUpperCase() + weekday.slice(1)}
           </p>
           <Day date={currentDate} />
-          {holiday?.nationalHoliday && <span className="text-xs ml-2">{holiday.name}</span>}
+          {importantdayes && (
+            <span className="text-xs ml-2">{holiday.name}</span>
+          )}
         </div>
       </div>
     );
